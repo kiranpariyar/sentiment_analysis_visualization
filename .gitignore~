@@ -1,0 +1,10 @@
+.gradle
+.idea
+gradle
+build
+gradle.properties
+gradlew.bat
+gradlew
+grailswebapp.iml
+lib/*
+grails-app/assets/*
