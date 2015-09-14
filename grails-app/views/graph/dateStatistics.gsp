@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+    ${brand}
     ${count}
     ${map}
 

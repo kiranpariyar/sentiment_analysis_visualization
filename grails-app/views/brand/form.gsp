@@ -19,15 +19,15 @@
 <div class="pace-done">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Basic Form</h2>
-                <ol class="breadcrumb">
-                    <li>
-                        <a href="">Home</a>
-                    </li>
-                    <li class="active">
-                        <strong>Add Brand</strong>
-                    </li>
-                </ol>
+                <h2>Add Brand</h2>
+                %{--<ol class="breadcrumb">--}%
+                    %{--<li>--}%
+                        %{--<a href="">Home</a>--}%
+                    %{--</li>--}%
+                    %{--<li class="active">--}%
+                        %{--<strong>Add Brand</strong>--}%
+                    %{--</li>--}%
+                %{--</ol>--}%
             </div>
             <div class="col-lg-2">
 

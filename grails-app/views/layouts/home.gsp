@@ -67,7 +67,10 @@
                 </li>
 
                 %{--<li >--}%
-                    %{--<g:link controller="User" action="form"><span class="nav-label">Add User</span></g:link>--}%
+                    %{--<g:if test="${session.loggedUser.role=='admin'}">--}%
+                        %{--<g:link controller="User" action="form"><span class="nav-label">Add User</span></g:link>--}%
+                    %{--</g:if>--}%
+
                 %{--</li>--}%
 
                 <li>
@@ -75,7 +78,11 @@
                 </li>
 
                 <li>
-                    <g:link controller="Brand" action="list"><span class="nav-label"><i class="fa fa-table"></i>List Brands</span></g:link>
+                    <g:link controller="brand" action="list"><span class="nav-label"><i class="fa fa-table"></i>List Brands</span></g:link>
+                </li>
+
+                <li>
+                    <g:link controller="comparision" action="index"><span class="nav-label"><i class="fa fa-pie-chart"></i>Compare</span></g:link>
                 </li>
 
             </ul>

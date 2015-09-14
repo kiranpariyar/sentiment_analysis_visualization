@@ -1,5 +1,7 @@
 package grailswebapp
 
+import java.text.SimpleDateFormat
+
 class GraphController {
 
     TweetStatisticsService tweetStatisticsService
@@ -9,26 +11,64 @@ class GraphController {
     }
 
     def statistics(){
-        def now = new Date()
-        def lastweek = now -7
-        def count = tweetStatisticsService.getLastWeekDataForPieChart(lastweek,now,session.brandSession)
-        def map = tweetStatisticsService.getLastWeekDataForOtherChart(lastweek,now,session.brandSession)
 
-        [count:count, map:map]
+        String brandName = params.brand
+        println(brandName)
+        Date now
+        Date lastweek
+        def count
+        def map
+        def brandList
+
+
+        if(brandName.equals(null)){
+            brandName = session.brand
+            now = new Date()
+            lastweek = now -7
+            count = tweetStatisticsService.getLastWeekDataForPieChart(lastweek,now,brandName)
+            map = tweetStatisticsService.getLastWeekDataForOtherChart(lastweek,now,brandName)
+            brandList = Brand.list()
+
+        }else{
+            session.brand = brandName
+            println(brandName)
+            String date1 = params.mydate1
+            String date2 = params.mydate2
+            println("date1 = " + date1)
+            println("date2 = " + date2)
+            println("name = " + brandName)
+            count = tweetStatisticsService.getDataFromStartToEndDateForPieChart(date1,date2,brandName)
+            map = tweetStatisticsService.getDataFromStartToEndDateForOtherChart(date1,date2,brandName)
+            brandList = Brand.list()
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd")
+            lastweek = formatter.parse(date1)
+            now = formatter.parse(date2)
+
+        }
+
+        println(count)
+
+        [count:count, map:map, brandList:brandList, brandName:brandName,startDate:lastweek,endDate:now]
     }
 
     def dateStatistics(){
-        def date1 = params.mydate1
-        def date2 = params.mydate2
-        println(date1)
-        println(date2)
+        String brandName = params.brand
 
-        def count = tweetStatisticsService.getDataFromStartToEndDateForPieChart(date1,date2,"samsung")
-        def map = tweetStatisticsService.getDataFromStartToEndDateForOtherChart(date1,date2,"samsung")
+        if(brandName.equals(null)){
+            brandName = "android"
+        }
+        String date1 = params.mydate1
+        String date2 = params.mydate2
+//        println(date1)
+//        println(date2)
 
-        println(count)
-        println(map)
 
-        [count:count,map: map]
+        def count = tweetStatisticsService.getDataFromStartToEndDateForPieChart(date1,date2,brandName)
+        def map = tweetStatisticsService.getDataFromStartToEndDateForOtherChart(date1,date2,brandName)
+        def brandList = Brand.list()
+//        println(count)
+//        println(map)
+
+        [count:count, map:map, brandList:brandList, brandName:brandName]
     }
 }

@@ -11,7 +11,7 @@
 <html>
 <head>
 
-    <meta name="layout" content="home"/>
+    <meta name="layout" content="admintemplate"/>
 
 </head>
 
@@ -25,7 +25,7 @@
                         <a href="">Home</a>
                     </li>
                     <li class="active">
-                        <strong>Create User</strong>
+                        <strong>Add User</strong>
                     </li>
                 </ol>
             </div>

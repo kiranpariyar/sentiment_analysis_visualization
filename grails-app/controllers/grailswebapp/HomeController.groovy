@@ -3,13 +3,24 @@ package grailswebapp
 
 class HomeController {
 
-    TweetStatisticsService tweetStatisticsService
+    def adminhome(){
+    }
 
-    def index() {
-        def now = new Date()
-        def lastweek = now -7
-        def count = tweetStatisticsService.getLastWeekDataForPieChart(lastweek,now)
+    def userform(){
+        render(view: "userform")
+    }
 
-        [count:count]
+    def addUser(){
+        def user = new User(params)
+        user.role = "user"
+        user.save()
+        redirect(action: "list")
+    }
+
+    def list(){
+        def userList = User.list()
+
+
+        [user:user]
     }
 }

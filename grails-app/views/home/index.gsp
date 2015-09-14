@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title></title>
+    <title>Admin Interface</title>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <asset:javascript src="jquery/jquery-2.1.1.js"/>
     <g:external dir="javascript" file="drawChart.js" />

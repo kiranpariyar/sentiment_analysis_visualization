@@ -36,7 +36,7 @@
                 },
                 height: 400,
                 is3D: true,
-                colors: ['#30f0a0', '#66b7f0','#f04151']
+                colors: ['#08b637','#66b7f0','#f04151']
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
@@ -65,7 +65,7 @@
                 curveType: 'function',
                 height: 400,
                 legend: {position: 'bottom'},
-                colors: ['#30f0a0', '#66b7f0','#f04151']
+                colors: ['#08b637','#66b7f0','#f04151']
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -78,8 +78,8 @@
             var data = new google.visualization.DataTable();
             data.addColumn('number', 'Day');
             data.addColumn('number', 'positive');
-            data.addColumn('number', 'negative');
             data.addColumn('number', 'neutral');
+            data.addColumn('number', 'negative');
 
             <g:each in="${map}" var="m">
             data.addRow([${m.getKey()}, ${m.getValue()[2]}, ${m.getValue()[1]}, ${m.getValue()[0]}]);
@@ -92,7 +92,7 @@
 
                 },
                 height: 400,
-                colors: ['#30f0a0', '#66b7f0','#f04151']
+                colors: ['#08b637','#66b7f0','#f04151']
 
             };
 
@@ -104,7 +104,7 @@
         function drawColumnChart() {
 
             var data = new google.visualization.DataTable();
-            var column = ['day','positive','negative','neutral']
+            var column = ['day','positive','neutral','negative']
             for(var i=0; i<column.length; i++){
                 data.addColumn('number',column[i])
             }
@@ -122,7 +122,7 @@
                     legend: { position: 'bottom' }
 
                 },
-                colors: ['#30f0a0', '#66b7f0','#f04151']
+                colors: ['#08b637','#66b7f0','#f04151']
             };
 
             var chart = new google.charts.Bar(document.getElementById('column_chart'));
@@ -139,21 +139,32 @@
 <div class="pace-done">
 
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-lg-6">
-                <h2>Sentiment Prediction Graphs of ${session.brandSession}</h2>
+            <div class="col-lg-3">
+                <h2>Sentiment Prediction Graphs of ${session.brand}</h2>
             </div>
-            <div class="col-lg-6">
+
+            <div class="col-lg-9">
                 <div style="margin-top: 20px;">
-                    <g:form controller="Graph" action="dateStatistics" class="form-inline">
+                    <g:form controller="graph" action="statistics" class="form-inline">
+                        <label class="control-label">Select Brand</label>
+                        <div class="form-group col-lg-2">
+                            <select name="brandName" class="form-control">
+                                <option>${session.brand}</option>
+                                <g:each in="${brandList}" var="brand">
+                                    <option value="${brand.brandName}">${brand.brandName}</option>
+                                </g:each>
+                            </select>
+                        </div>
+
                         <label class="control-label">From</label>
                         <div class="form-group">
                             %{--<label for="exampleInputEmail2" class="sr-only">Email address</label>--}%
-                            <input type="date" name="mydate1" value="${new Date()}" class="form-control">
+                            <input type="date" name="mydate1" value="${new Date()}" class="form-control" required="required" >
                         </div>
                         <label class="control-label">To</label>
                         <div class="form-group">
                             %{--<label for="exampleInputPassword2" class="sr-only">Password</label>--}%
-                            <input type="date" name="mydate2" value="${new Date()}" class="form-control">
+                            <input type="date" name="mydate2" value="${new Date()}" class="form-control" required="required">
                         </div>
                         <g:submitButton class="btn btn-primary" name="submit" value="Go!"></g:submitButton>
                     </g:form>
@@ -172,6 +183,7 @@
                         </div>
 
                         <div class="ibox-content">
+                            <h5>from date : ${startDate}  to  ${endDate}</h5>
                             <div id="piechart_3d">
 
                             </div>
@@ -188,6 +200,7 @@
                         </div>
 
                         <div class="ibox-content">
+                            <h5>from date : ${startDate}  to  ${endDate}</h5>
                             <div id="column_chart">
                             </div>
                         </div>
@@ -203,6 +216,7 @@
                         </div>
 
                         <div class="ibox-content">
+                            <h5>from date : ${startDate}  to  ${endDate}</h5>
                             <div id="line_chart">
                             </div>
                         </div>

@@ -10,28 +10,68 @@ class DashboardController {
 
     def summary(){
 
-        println(params.name)
+        def brandName = params.name
+        def now
+        def startDate
+        def count
+        def map
+        def totalTweet
+        double positivePercent
+        double negativePercent
+        double neutralPercent
+        def tweets
 
-        if(params.name == null) {
-            session.brandSession = "samsung"
+        if(brandName == null) {
+            def brandList = Brand.list()
+            brandName = brandList.get(0).brandName
+            session.brand = brandName
+            println(brandName)
+
+            now = new Date()
+            startDate = now -7
+            count = tweetStatisticsService.getLastWeekDataForPieChart(startDate ,now,brandName)
+            map = tweetStatisticsService.getLastWeekDataForOtherChart(startDate ,now,brandName)
+            totalTweet = count.sum()
+
+            if(totalTweet == 0){
+                render("data are not in database: total tweet = 0")
+            }else {
+                positivePercent = count.get(2) / totalTweet * 100
+                negativePercent = count.get(0) / totalTweet * 100
+                neutralPercent = count.get(1) / totalTweet * 100
+
+                tweets = tweetStatisticsService.getTop5Tweets(startDate, now, brandName)
+
+                [total: totalTweet, count: count, map: map, tweets: tweets, positive: positivePercent, negative: negativePercent, neutral: neutralPercent, brand: brandName, lastweek: startDate]
+            }
         } else {
-            session.brandSession = params.name
+            def brand = Brand.findByBrandName(brandName)
+            if ( brand != null ) {
+                println("brandname from database :" + brand.brandName)
+                session.brand = params.name
+
+                now = new Date()
+                startDate = now -7
+                count = tweetStatisticsService.getLastWeekDataForPieChart(startDate, now, brand.brandName)
+                map = tweetStatisticsService.getLastWeekDataForOtherChart(startDate, now, brand.brandName)
+                totalTweet = count.sum()
+
+                if(totalTweet == 0){
+                    render("data are not in database")
+                }else {
+
+                    positivePercent = count.get(2) / totalTweet * 100
+                    negativePercent = count.get(0) / totalTweet * 100
+                    neutralPercent = count.get(1) / totalTweet * 100
+
+                    tweets = tweetStatisticsService.getTop5Tweets(startDate, now,brand.brandName)
+
+                    [total: totalTweet, count: count, map: map, tweets: tweets, positive: positivePercent, negative: negativePercent, neutral: neutralPercent, brand: session.brand, lastweek: startDate]
+                }
+            } else {
+                println(params.name)
+                render(view: "add")
+            }
         }
-
-        println(session.brandSession)
-
-        def now = new Date()
-        def lastweek = now -7
-        def count = tweetStatisticsService.getLastWeekDataForPieChart(lastweek,now,session.brandSession)
-        def map = tweetStatisticsService.getLastWeekDataForOtherChart(lastweek,now,session.brandSession)
-        def totaltweet = count.sum()
-        def positivepercent = Math.round(100*count.get(2)/totaltweet)
-        def negativepercent = Math.round(100*count.get(0)/totaltweet)
-        def neutralpercent = Math.round(100*count.get(1)/totaltweet)
-
-        def tweets = tweetStatisticsService.getTop5Tweets(lastweek,now,session.brandSession)
-
-        [total: totaltweet, count:count,map:map,tweets:tweets,positive:positivepercent, negative:negativepercent, neutral:neutralpercent,brand:session.brandSession,lastweek:lastweek]
     }
-
 }

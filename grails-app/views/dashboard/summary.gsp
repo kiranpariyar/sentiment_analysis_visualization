@@ -35,7 +35,7 @@
                         legend: { position: 'bottom' }
                     },
                     is3D: true,
-                    colors: ['#08b637', '#0b0cff','#f04151']
+                    colors: ['#08b637','#66b7f0','#f04151']
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
@@ -45,24 +45,37 @@
             function drawLineChart() {
                 var data = new google.visualization.DataTable();
 
-                data.addColumn('number', 'Date');
+                data.addColumn('date', 'Date');
                 data.addColumn('number', 'positive');
                 data.addColumn('number', 'negative');
                 data.addColumn('number', 'neutral');
 
-                console.log(data);
+                %{--<g:each in="${map}" var="m">--}%
+                    %{--data.addRow([${m.getKey()}, ${m.getValue()[2]}, ${m.getValue()[1]}, ${m.getValue()[0]}]);--}%
+                %{--</g:each>--}%
 
+                var current = new Date();
+                var i = 7;
                 <g:each in="${map}" var="m">
-                    data.addRow([${m.getKey()}, ${m.getValue()[2]}, ${m.getValue()[1]}, ${m.getValue()[0]}]);
+                    data.addRow([new Date(current.getYear(),current.getMonth(),current.getDate()-i), ${m.getValue()[2]}, ${m.getValue()[1]}, ${m.getValue()[0]}]);
+                    i = i-1;
                 </g:each>
 
                 var options = {
+                    hAxis: {
+                        format: 'M/d/yy',
+                        gridlines: {count: 15}
+                    },
+                    vAxis: {
+                        gridlines: {color: 'none'},
+                        minValue: 0
+                    },
                     chart: {
                         title: 'One Week Statistics in Line Chart',
                         legend: { position: 'bottom' }
 
                     },
-                    colors: ['#30f0a0', '#66b7f0','#f04151']
+                    colors: ['#08b637','#66b7f0','#f04151']
                 };
 
                 var chart = new google.charts.Line(document.getElementById('line_chart'));
@@ -79,6 +92,7 @@
     %{--<g:each in="${map}" var="m">--}%
         %{--<p>${m.getValue()[0]}</p>--}%
     %{--</g:each>--}%
+
     <div class="row wrapper border-bottom white-bg page-heading">
 
         <div class="col-lg-7">
@@ -89,7 +103,7 @@
         <div style="margin-top: 20px;">
             <g:form controller = "dashboard" action = "summary">
                 <div class="input-group">
-                    <g:textField name="name" class="form-control" placeholder="sentiment prediction of brand or product" />
+                    <input required="required" name="name" class="form-control" placeholder="sentiment prediction of brand or product" />
                     %{--<input type="text" name="name" class="form-control" placeholder="sentiment prediction of brand or product"/>--}%
                     <span class="input-group-btn">
                         %{--<button type="button" class="btn btn-primary">Go!</button>--}%

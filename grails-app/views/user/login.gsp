@@ -25,10 +25,10 @@
                     <h3>Welcome to Social Media Listening And Analysis</h3>
                     <g:form class="m-t" url="[controller:'user',action:'loginHandle']">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Username" required="required" value="${UserInstance?.username}">
+                            <input type="text" class="form-control" placeholder="Username" required="required" name="username">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Password" required="required" value="${UserInstance?.password}">
+                            <input type="password" class="form-control" placeholder="Password" required="required" name="password">
                         </div>
                         <g:submitButton class="btn btn-primary block full-width m-b" name="submitButton" value="Login" />
                     </g:form>
